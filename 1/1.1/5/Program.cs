@@ -7,7 +7,7 @@ namespace task1._1._5
         public static int DigitsSum(int digit)
         {
             int digitsSum = 0;
-            for(int i = 0; i < 1000; i += digit)
+            for(int i = digit; i < 1000; i += digit)
             {
                 digitsSum += i;
             }
@@ -15,7 +15,7 @@ namespace task1._1._5
         }
         static void Main(string[] args)
         {
-            int result = DigitsSum(5) + DigitsSum(3) - DigitsSum(DigitsSum(15));
+            int result = DigitsSum(5) + DigitsSum(3) - DigitsSum(15);
             Console.WriteLine(result);
         }
     }
