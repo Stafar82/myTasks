@@ -4,6 +4,21 @@ namespace task1._1._7
 {
     internal class Program
     {
+        public static void WriteMinAndMaxElements(int[] array)
+        {
+            int min = int.MaxValue;
+            int max = array[0];
+            for(int i = 0; i < array.Length; i++)
+            {
+                if(array[i] > max)
+                    max = array[i];
+
+                if (array[i] < min)
+                    min = array[i];
+            }
+
+            Console.WriteLine("\nМинимальный элемент массива : {0} \nМаксимальный элемент массива : {1}", min, max);
+        }
         public static void SortArray(int[] array)
         {
             int temp;
@@ -23,12 +38,9 @@ namespace task1._1._7
         public static void GenerateRandomElements(int[] array)
         {
             var random = new Random();
-            Console.WriteLine("Введите минимальное и максимальное значения массива : ");
-            int minValue = int.Parse(Console.ReadLine());
-            int maxValue = int.Parse(Console.ReadLine());
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = random.Next(minValue, maxValue);
+                array[i] = random.Next(1, 20);
             }
         }
 
@@ -48,6 +60,7 @@ namespace task1._1._7
             Console.WriteLine("\nОтсортированный массив");
             SortArray(array);
             PrintArray(array);
+            WriteMinAndMaxElements(array);
         }
     }
 }
