@@ -15,8 +15,11 @@ namespace ConsoleApp1
             Radius = rad;
 
         }
-        public RoundShape() : base()
+        public RoundShape()
         {
+            Console.WriteLine("Введите координаты X, Y");
+            X = int.Parse(Console.ReadLine());
+            Y = int.Parse(Console.ReadLine());
             Console.WriteLine("Введите радиус");
             Radius = int.Parse(Console.ReadLine());
         }

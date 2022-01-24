@@ -8,24 +8,20 @@ namespace ConsoleApp1
 {
     public class Square : Shape
     {
-        public int FirstSide { get; set; }
-        public Square(int x, int y, int  side) :base(x,y)
+        protected Line Side;
+        public Square()
         {
-            FirstSide = side;
+            Console.WriteLine("Введите длину стороны");
+            Side = new Line(int.Parse(Console.ReadLine()));
         }
-        public Square() : base()
-        {
-            Console.WriteLine("Задайте сторону : ");
-            FirstSide = int.Parse(Console.ReadLine());
-        }
-
-        virtual public int Perimetr { get => FirstSide * 4; }
-        virtual public int Area { get => FirstSide * FirstSide; }
-        public override void Print()
+        virtual public double Diagonal { get => Math.Sqrt(2) * Side.Lenght; }
+        virtual public double Perimetr { get => Side.Lenght * 4; }
+        virtual public double Area { get => Side.Lenght * Side.Lenght; }
+        override public void Print()
         {
             Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$");
             Console.WriteLine("Фигура : квадрат");
-            Console.WriteLine("Коодринаты: X = {0}, Y = {1}", X, Y);
+            Console.WriteLine("Диагональ = {0}", Diagonal);
             Console.WriteLine("Периметр = {0}", Perimetr);
             Console.WriteLine("Площадь = {0}", Area);
             Console.WriteLine("$$$$$$$$$$$$$$$$$$$$$");

@@ -12,9 +12,6 @@ namespace ConsoleApp1
         public int Y { get; set; }
         public Shape() 
         {
-            Console.WriteLine("Введите координаты X, Y");
-            X = int.Parse(Console.ReadLine());
-            Y = int.Parse(Console.ReadLine());
         }
         abstract public void Print();
         public Shape(int x, int y)

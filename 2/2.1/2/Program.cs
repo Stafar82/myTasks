@@ -10,6 +10,9 @@ namespace ConsoleApp1
         Ring,
         Square,
         Rectangle,
+        Line,
+        Triangle
+
     }
     internal class Program
     {
@@ -20,7 +23,6 @@ namespace ConsoleApp1
         }
         public static void CreateShape(ShapeType shape, List<Shape> list)
         {
-            int x = 0, y = 0, rad = 0;
             switch (shape)
             {
                 case ShapeType.Circle:
@@ -40,6 +42,12 @@ namespace ConsoleApp1
                     break;
                 case ShapeType.Rectangle:
                     list.Add(new Rectangle());
+                    break;
+                case ShapeType.Line:
+                    list.Add(new Line());
+                    break;
+                case ShapeType.Triangle:
+                    list.Add(new Triangle());
                     break;
             }
         }
@@ -63,14 +71,14 @@ namespace ConsoleApp1
             userName = Console.ReadLine();
             while (!exit)
             {
-                Console.WriteLine("Hello, {0}, make a choose", userName);
+                Console.WriteLine("Hello, {0}, make a choice", userName);
                 Console.WriteLine("1. добавить фигуру\n2. вывести фигуры\n3. очистить холст\n 4. сменить пользователя");
                 ConsoleKeyInfo input = Console.ReadKey();
                 switch (input.Key)
                 {
                     case ConsoleKey.D1:
                         Console.WriteLine("\nВведите тип фигуры: ");
-                        Console.WriteLine("0 - окружность, 1 - диск, 2 - кольцо, 3 - квадрат, 4 - треугольник");
+                        Console.WriteLine("0 - Окружность, 1 - Диск, 2 - Кольцо, 3 - Квадрат, 4 - Прямоугольник, 5 - Линия, 6 - Треугольник");
                         ShapeType key = (ShapeType)int.Parse(Console.ReadLine());
                         CreateShape(key, canvas);
                         break;
@@ -82,7 +90,7 @@ namespace ConsoleApp1
                         Console.WriteLine("Холст очищен!");
                         break;
                     case ConsoleKey.D4:
-                        Console.WriteLine("Здравствуйте, введите ваше новое имя: ");
+                        Console.WriteLine("\nЗдравствуйте, введите ваше новое имя: ");
                         userName = Console.ReadLine();
                         break;
                     case ConsoleKey.D5:
