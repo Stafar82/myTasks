@@ -11,10 +11,8 @@ namespace ConsoleApp56
         private List<GameObject> Objects;
         private List<GameObject> Fences;
         private List<GameObject> Enemys;
-        private List<GameObject> Bonuses;
         private readonly Map map;
         private readonly Player player;
-        bool isWorking = false;
         private int lives = 1;
         private int refresh = 200;
         public Game()
@@ -27,7 +25,6 @@ namespace ConsoleApp56
             {
                 new Wolf("W"), new Bear("B"), 
                 new Wolf("W"), new Bear("B"), 
-                new Bonus("o"), new Bonus("o")
             };
 
             for (int i = 0; i < 12; i++)
@@ -40,20 +37,20 @@ namespace ConsoleApp56
 
             Enemys = Objects.Where(t => t is IEnemy).ToList();
             Fences = Objects.Where(t => t is IFence).ToList();
-            Bonuses = Objects.Where(t => t is IBonus).ToList();
         }
         public void Start()
         {
-            while (!isWorking) 
+            while (true) 
             {
                 RefreshMap();
                 Console.WriteLine("Количество жизней: {0}", lives);
-                SecretMethod();
 
                 ConsoleKeyInfo userInput = Console.ReadKey(true);
 
                 ActionHeandler(userInput);
 
+                if (userInput.Key == ConsoleKey.Escape)
+                    break;
             }
         }
 
@@ -66,8 +63,6 @@ namespace ConsoleApp56
                     {
                         player.Move(Direction.Up);
                         EnemyMovements(Direction.Down, Enemys);
-                        BonusChecker(player.Position);
-                        EnemysChecker(player.Position);
                     }
                     break;
                 case ConsoleKey.LeftArrow:
@@ -75,8 +70,6 @@ namespace ConsoleApp56
                     {
                         player.Move(Direction.Left);
                         EnemyMovements(Direction.Right, Enemys);
-                        BonusChecker(player.Position);
-                        EnemysChecker(player.Position);
                     }
                     break;
                 case ConsoleKey.RightArrow:
@@ -84,8 +77,6 @@ namespace ConsoleApp56
                     {
                         player.Move(Direction.Right);
                         EnemyMovements(Direction.Left, Enemys);
-                        BonusChecker(player.Position);
-                        EnemysChecker(player.Position);
                     }
                     break;
                 case ConsoleKey.DownArrow:
@@ -93,8 +84,6 @@ namespace ConsoleApp56
                     {
                         player.Move(Direction.Down);
                         EnemyMovements(Direction.Up, Enemys);
-                        BonusChecker(player.Position);
-                        EnemysChecker(player.Position);
                     }
                     break;
 
@@ -112,7 +101,6 @@ namespace ConsoleApp56
                     break;
             }
         }
-
         public void Fire(Coordinates position, Direction direction)
         {
             Coordinates positionArrow = new Coordinates(-1, 0);
@@ -193,6 +181,7 @@ namespace ConsoleApp56
         {
             for (int i = 0; i < Enemys.Count; i++)
             {
+
                 if (isNotOutsideOrFence(direction, Enemys[i].Position))
                 {
                     var temp = (IMovable)Enemys[i];
@@ -205,37 +194,6 @@ namespace ConsoleApp56
                 }
             }
         }
-        private void BonusChecker(Coordinates position)
-        {
-            foreach(var bonus in Bonuses)
-            {
-                if (position.CompareTo(bonus.Position) == 0)
-                {
-                    lives++;
-                    Objects.Remove(bonus);
-                    map.Remove(bonus);
-                    Bonuses.Remove(bonus);
-                }
-
-            }
-        }
-        private void EnemysChecker(Coordinates position)
-        {
-            foreach (var enemy in Enemys)
-            {
-                if (position.CompareTo(enemy.Position) == 0)
-                {
-                    if (lives == 1)
-                    {
-                        while(true)
-                            Console.WriteLine("\t\t\t\t\t\n\n\n\n\n\nПоздравляю, вы проиграли !");
-                    }
-                    else
-                        lives--;
-                }
-
-            }
-        }
         private void PrintMap()
         {
             foreach (var line in map.GetField())
@@ -244,28 +202,6 @@ namespace ConsoleApp56
             }
         }
 
-        private void SecretMethod()
-        {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine(@"
-░░░░░░░░▄▄▄▄▄▄▄▄▄
-░▄███████▀▀▀▀▀▀███████▄
-░▐████▀▒▒▒▒▒▒▒▒▒▒▀██████▄ @ - tbl
-░███▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀█████ # - stenki(walls)
-░▐██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒████▌W, B - vragi (enemys)
-░▐█▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒████▌o - bonuses(bonuses)
-░░█▒▄▀▀▀▀▀▄▒▒▄▀▀▀▀▀▄▒▐███▌wasd - to kill vragov
-░░░▐░░░▄▄░░▌▐░░░▄▄░░▌▐███▌
-░▄▀▌░░░▀▀░░▌▐░░░▀▀░░▌▒▀▒█▌
-░▌▒▀▄░░░░▄▀▒▒▀▄░░░▄▀▒▒▄▀▒▌
-░▀▄▐▒▀▀▀▀▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒█
-░░░▀▌▒▄██▄▄▄▄████▄▒▒▒▒█▀
-░░░░▄██████████████▒▒▐▌
-░░░▀███▀▀████▀█████▀▒▌
-░░░░░▌▒▒▒▄▒▒▒▄▒▒▒▒▒▒▐
-░░░░░▌▒▒▒▒▀▀▀▒▒▒▒▒▒▒▐");
-            Console.BackgroundColor = ConsoleColor.Black;
-        }
         public void RefreshMap()
         {
             Console.Clear();
